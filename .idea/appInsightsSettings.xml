@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.floraguard_pfa_2024" />
+                  <option name="mobileSdkAppId" value="1:754027736559:android:12cf0e1f38ff618dfd1a1a" />
+                  <option name="projectId" value="floraguard-pfa-2024" />
+                  <option name="projectNumber" value="754027736559" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
