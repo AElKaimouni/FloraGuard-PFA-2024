@@ -43,11 +43,13 @@ UserInterface.count().thenAccept(res -> {
 
 // update user
 UserInterface.findOne("abdo@gmail.com").thenAccept(res -> {
-    // "1234567899" is the new password and its optional param
-    res.setName("abdo334").setAvatar("avatar334").update("1234567899").thenAccept(v -> {
-        Log.d("user-update", "user updated " + res.getEmail());
+    // "Pictures/IMG_20240305_143129.jpg" is the path of the image
+    UserInterface.uploadAvatar("Pictures/IMG_20240305_143129.jpg").thenAccept(avatarURI -> {
+        // "1234567899" is the new password and its optional param
+        res.setName("abdo334").setAvatar(avatarURI).update("1234567899").thenAccept(v -> {
+            Log.d("user-update", "user updated " + res.getEmail() + " with avatar : " + avatarURI);
+        });
     });
-
 });
 
 // delete user

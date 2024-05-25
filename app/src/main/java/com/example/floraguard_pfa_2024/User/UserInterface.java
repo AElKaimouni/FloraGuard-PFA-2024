@@ -1,6 +1,7 @@
 package com.example.floraguard_pfa_2024.User;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.example.floraguard_pfa_2024.User.Exceptions.RegisterException;
 import com.example.floraguard_pfa_2024.User.Exceptions.RegisterExceptionCause;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,7 +23,10 @@ import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.auth.User;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +38,41 @@ public interface UserInterface {
     public CompletableFuture<Void> update(String newPassword);
     static void logout() {
         UserModel.mAuth.signOut();
+    };
+
+    static CompletableFuture<String> uploadAvatar(String path) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+
+        StorageReference storageRef = UserModel.storage.getReference();
+        Uri file = Uri.fromFile(new File(path));
+        StorageReference ref = storageRef.child("avatars/"+file.getLastPathSegment());
+        UploadTask uploadTask = ref.putFile(file);
+
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+
+                    future.complete(downloadUri.toString());
+                } else {
+                    // Handle failures
+                    // ...
+                }
+            }
+        });
+
+        return future;
     };
 
     static CompletableFuture<UserModel> auth(boolean needAdmin) {
