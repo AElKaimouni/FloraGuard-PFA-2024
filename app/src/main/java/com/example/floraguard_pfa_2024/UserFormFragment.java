@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,13 @@ public class UserFormFragment extends Fragment {
         String nameValue=name.getText().toString();
         String EmailValue=email.getText().toString();
         String PasswordValue=password.getText().toString();
-        UserInterface.create(nameValue,EmailValue,PasswordValue,"0");
+        UserInterface.create(nameValue,EmailValue,PasswordValue,"").whenComplete((res, exception) -> {
+            if(exception == null) {
+                Log.d("user-create", res.getName());
+            } else { // if email is duplicated
+                Log.d("user", exception.getMessage());
+            }
+        });
 
 
     }

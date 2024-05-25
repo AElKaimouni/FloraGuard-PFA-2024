@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -22,7 +23,14 @@ public class Login extends AppCompatActivity {
         Email=findViewById(R.id.ed_email);
         Password=findViewById(R.id.ed_password);
         button=findViewById(R.id.btn_login);
-        button.setOnClickListener(v->{login(Email.getText().toString(),Password.getText().toString());});
+        button.setOnClickListener(v->{login(Email.getText().toString(),Password.getText().toString()).thenAccept(user -> {
+            if(user == null) {
+                Log.d("user-auth", "unvalid credentails");
+            } else {
+                Log.d("user-auth", user.getName());
+            }
+        });
+            ;});
 
     }
 

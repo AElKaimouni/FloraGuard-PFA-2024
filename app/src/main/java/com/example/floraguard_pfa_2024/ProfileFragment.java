@@ -90,7 +90,7 @@ public class ProfileFragment extends Fragment {
     private void updatePassword() {
         if (password.getText().toString().equals(Newpassword.getText().toString())) {
             UserInterface.findOne(email).thenAccept(res -> {
-                res.setName(name.getText().toString()).setAvatar(image.toString()).update(Newpassword.getText().toString()).thenAccept(v -> {
+                res.update(Newpassword.getText().toString()).thenAccept(v -> {
                     Log.d("user-update", "user updated " + res.getEmail());
                 });
             });
