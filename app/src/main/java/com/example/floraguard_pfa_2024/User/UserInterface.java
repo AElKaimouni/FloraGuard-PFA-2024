@@ -40,8 +40,8 @@ public interface UserInterface {
         UserModel.mAuth.signOut();
     };
 
-    static CompletableFuture<String> uploadAvatar(String path) {
-        CompletableFuture<String> future = new CompletableFuture<>();
+    static CompletableFuture<Uri> uploadAvatar(String path) {
+        CompletableFuture<Uri> future = new CompletableFuture<>();
 
         StorageReference storageRef = UserModel.storage.getReference();
         Uri file = Uri.fromFile(new File(path));
@@ -64,7 +64,7 @@ public interface UserInterface {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
 
-                    future.complete(downloadUri.toString());
+                    future.complete(downloadUri);
                 } else {
                     // Handle failures
                     // ...
