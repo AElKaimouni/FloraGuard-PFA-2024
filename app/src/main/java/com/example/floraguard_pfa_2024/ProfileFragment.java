@@ -31,11 +31,11 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance(String param1, String param2) {
+    public static ProfileFragment newInstance(String name, String email) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM1, name);
+        args.putString(ARG_PARAM2, email);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,6 +61,7 @@ public class ProfileFragment extends Fragment {
         }
 
         name = rootView.findViewById(R.id.ed_name);
+        name.setText(ProfileFragment.ARG_PARAM1);
         buttonSaveName = rootView.findViewById(R.id.btn_save_name);
         buttonSaveName.setOnClickListener(v -> updateName());
 

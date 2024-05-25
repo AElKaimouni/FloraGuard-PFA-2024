@@ -1,8 +1,6 @@
 package com.example.floraguard_pfa_2024.User;
 
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -20,11 +18,9 @@ import com.google.firebase.firestore.AggregateQuerySnapshot;
 import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.auth.User;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -173,9 +169,9 @@ public interface UserInterface {
         return future;
     }
 
-    static CompletableFuture<ArrayList<UserModel>> all() {
-        CompletableFuture<ArrayList<UserModel>> future = new CompletableFuture<>();
-        ArrayList<UserModel> list = new ArrayList<UserModel>();
+    static CompletableFuture<LinkedList<UserModel>> all() {
+        CompletableFuture<LinkedList<UserModel>> future = new CompletableFuture<>();
+        LinkedList<UserModel> list = new LinkedList<>();
 
         UserModel.db.collection("users")
             .get()
