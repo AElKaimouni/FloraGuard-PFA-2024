@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="Name" />
+                android:hint="Name" />
 
             <EditText
                 android:id="@+id/ed_email"
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="Name" />
+                android:hint="email" />
 
             <EditText
                 android:id="@+id/ed_password"
@@ -44,7 +44,7 @@
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="save" />
+                android:text="submit" />
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>
