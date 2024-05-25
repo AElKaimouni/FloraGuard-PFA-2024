@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "754027736559",
-    "project_id": "floraguard-pfa-2024",
-    "storage_bucket": "floraguard-pfa-2024.appspot.com"
+    "project_number": "133834843631",
+    "firebase_url": "https://prototype-2-c028d-default-rtdb.firebaseio.com",
+    "project_id": "prototype-2-c028d",
+    "storage_bucket": "prototype-2-c028d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:754027736559:android:12cf0e1f38ff618dfd1a1a",
+        "mobilesdk_app_id": "1:133834843631:android:88b29fb35043e01e96c21a",
         "android_client_info": {
           "package_name": "com.example.floraguard_pfa_2024"
         }
@@ -15,7 +16,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCihphSbvCcC9uSINkgp9nYicI6kf5YYWQ"
+          "current_key": "AIzaSyBt6GeGd8cX7MgIWv8HFqTCubQc8VQJ2Hw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133834843631:android:5f3eb6704284ddf696c21a",
+        "android_client_info": {
+          "package_name": "com.example.pfa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt6GeGd8cX7MgIWv8HFqTCubQc8VQJ2Hw"
         }
       ],
       "services": {

@@ -39,7 +39,11 @@ public interface UserInterface {
         CompletableFuture<UserModel> future = new CompletableFuture<>();
         FirebaseUser currentUser = UserModel.mAuth.getCurrentUser();
 
-        if(currentUser == null) return  null;
+        if(currentUser == null) {
+            future.complete(null);
+
+            return future;
+        };
 
         String email = currentUser.getEmail();
 
