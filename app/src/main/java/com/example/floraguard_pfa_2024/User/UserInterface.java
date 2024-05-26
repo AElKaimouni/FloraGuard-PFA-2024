@@ -1,13 +1,12 @@
 package com.example.floraguard_pfa_2024.User;
 
-import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
 import com.example.floraguard_pfa_2024.User.Exceptions.RegisterException;
 import com.example.floraguard_pfa_2024.User.Exceptions.RegisterExceptionCause;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,21 +19,52 @@ import com.google.firebase.firestore.AggregateQuerySnapshot;
 import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.auth.User;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public interface UserInterface {
-    public CompletableFuture<Void> delete();
-    public CompletableFuture<Void> update(String newPassword);
+    CompletableFuture<Void> delete();
+    CompletableFuture<Void> update(String newPassword);
+
     static void logout() {
         UserModel.mAuth.signOut();
-    };
+    }
 
+    static CompletableFuture<Uri> uploadAvatar(Uri path) {
+        CompletableFuture<Uri> future = new CompletableFuture<>();
+        StorageReference storageRef = UserModel.storage.getReference();
+
+        StorageReference ref = storageRef.child("avatars/" + path.getLastPathSegment());
+        UploadTask uploadTask = ref.putFile(path);
+
+        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    future.complete(downloadUri);
+                } else {
+                    future.completeExceptionally(task.getException());
+                }
+            }
+        });
+
+        return future;
+    }
     static CompletableFuture<UserModel> auth(boolean needAdmin) {
         CompletableFuture<UserModel> future = new CompletableFuture<>();
         FirebaseUser currentUser = UserModel.mAuth.getCurrentUser();
@@ -96,19 +126,20 @@ public interface UserInterface {
         CompletableFuture<UserModel> future = new CompletableFuture<>();
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    UserInterface.auth().thenApply(res -> {
-                        future.complete(res);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        UserInterface.auth().thenApply(res -> {
+                            future.complete(res);
 
-                        return null;
-                    });
-                }
-                else future.complete(null);
-            });
+                            return null;
+                        });
+                    }
+                    else future.complete(null);
+                });
 
         return future;
     }
+
 
     static CompletableFuture<UserModel> create(String name, String email, String password, String avatar) {
         CompletableFuture<UserModel> future = new CompletableFuture<>();
@@ -173,9 +204,9 @@ public interface UserInterface {
         return future;
     }
 
-    static CompletableFuture<ArrayList<UserModel>> all() {
-        CompletableFuture<ArrayList<UserModel>> future = new CompletableFuture<>();
-        ArrayList<UserModel> list = new ArrayList<UserModel>();
+    static CompletableFuture<LinkedList<UserModel>> all() {
+        CompletableFuture<LinkedList<UserModel>> future = new CompletableFuture<>();
+        LinkedList<UserModel> list = new LinkedList<>();
 
         UserModel.db.collection("users")
             .get()
@@ -202,15 +233,18 @@ public interface UserInterface {
         CompletableFuture<Long> future = new CompletableFuture<>();
 
         UserModel.db.collection("users").count().get(AggregateSource.SERVER)
-            .addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        future.complete(task.getResult().getCount());
+                .addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            future.complete(task.getResult().getCount());
+                        } else {
+                            future.completeExceptionally(task.getException());
+                        }
                     }
-                }
-            });
+                });
 
         return future;
     }
+
 }

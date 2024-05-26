@@ -1,0 +1,23 @@
+// find plant by id
+PlantInterface.findOne("7906TxKQkLSAx0nvfFvZ").thenAccept(plant -> {
+    if(plant == null) {
+        Log.d("plant-find", "no plan with id : 7906TxKQkLSAx0nvfFvZ");
+    } else {
+        Log.d("plant-find", "found plant with name " + plant.getName());
+    }
+});
+
+// upload plant image
+PlantInterface.uploadImage("path").thenAccept(imageURI -> {
+    // create new plant
+    PlantInterface.create("my second plant", imageURI.toString(), PlantType.TOMATO).thenAccept(plant -> {
+        Log.d("plant-create", "new plant created with id " + plant.getID());
+    });
+});
+
+// list all plants
+PlantInterface.table().thenAccept(plants -> {
+    for(PlantModel plant: plants) {
+        Log.d("plant-table", plant.getName());
+    }
+});

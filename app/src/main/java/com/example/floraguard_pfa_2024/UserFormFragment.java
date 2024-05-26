@@ -1,14 +1,17 @@
 package com.example.floraguard_pfa_2024;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.floraguard_pfa_2024.User.UserInterface;
 
@@ -82,8 +85,26 @@ public class UserFormFragment extends Fragment {
         String nameValue=name.getText().toString();
         String EmailValue=email.getText().toString();
         String PasswordValue=password.getText().toString();
-        UserInterface.create(nameValue,EmailValue,PasswordValue,"0");
+        UserInterface.create(nameValue,EmailValue,PasswordValue,"").whenComplete((res, exception) -> {
+            if(exception == null) {
+                Log.d("user-create", res.getName());
+                showToast("user created");
+                goToMainActivity();
+            } else { // if email is duplicated
+                Log.d("user", exception.getMessage());
+            }
+        });
 
 
     }
+    private void goToMainActivity() {
+        Intent intent = new Intent(requireContext(), MainActivity.class);
+        startActivity(intent);
+        // If you want to remove this fragment from the back stack:
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+    private void showToast(String message) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
 }

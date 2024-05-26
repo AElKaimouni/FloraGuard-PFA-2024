@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,6 +26,7 @@ public class UserModel implements UserInterface {
 
     protected static final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     protected static final FirebaseFirestore db = FirebaseFirestore.getInstance();;
+    protected static final FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public UserModel(String name, String email, String avatar) {
         this.name = name;

@@ -1,12 +1,18 @@
 package com.example.floraguard_pfa_2024;
 
+import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.floraguard_pfa_2024.User.UserInterface;
+import com.example.floraguard_pfa_2024.User.UserModel;
+import java.util.LinkedList;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,28 +21,17 @@ import android.view.ViewGroup;
  */
 public class UsersFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
+    private View rootView;
     private String mParam2;
 
     public UsersFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UsersFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static UsersFragment newInstance(String param1, String param2) {
         UsersFragment fragment = new UsersFragment();
         Bundle args = new Bundle();
@@ -59,6 +54,31 @@ public class UsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_users, container, false);
+        rootView = inflater.inflate(R.layout.fragment_users, container, false);
+
+        // Fetch users list asynchronously
+        UserInterface.all().thenAccept(users -> {
+            // Make sure to update UI on the main thread
+            getActivity().runOnUiThread(() -> setupRecyclerView(rootView, new LinkedList<>(users)));
+        });
+
+        return rootView;
     }
+
+    private void setupRecyclerView(View rootView, LinkedList<UserModel> users) {
+        RecyclerView recyclerView = rootView.findViewById(R.id.users);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(new UserAdapter(users, getContext()));
+        recyclerView.scrollToPosition(0);
+    }
+    private void goToMainActivity() {
+        Intent intent = new Intent(requireContext(), MainActivity.class);
+        startActivity(intent);
+        // If you want to remove this fragment from the back stack:
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
+
+
+
 }
