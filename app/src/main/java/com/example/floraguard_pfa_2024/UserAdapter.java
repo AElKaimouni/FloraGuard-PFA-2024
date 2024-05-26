@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.floraguard_pfa_2024.User.UserModel;
 
 import java.util.LinkedList;
@@ -39,6 +40,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
         UserModel user = users.get(position);
         holder.name.setText(user.getName());
         holder.email.setText(user.getEmail());
+        holder.image.setTag(user.getAvatar());
+        if(!user.getAvatar().equals("")){
+            Glide.with(context).load(user.getAvatar()).into(holder.image);
+
+
+        }
+
     }
 
     @Override
