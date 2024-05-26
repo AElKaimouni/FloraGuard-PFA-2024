@@ -20,30 +20,35 @@
                 android:id="@+id/ed_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:ems="10"
-                android:inputType="text"
-                android:hint="Name" />
+                android:hint="Name"
+
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/ed_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:ems="10"
-                android:inputType="text"
-                android:hint="email" />
+                android:hint="email"
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/ed_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:ems="10"
-                android:inputType="text"
-                android:hint="password" />
+                android:hint="password"
+                android:inputType="text" />
 
             <Button
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="submit" />
         </LinearLayout>
     </RelativeLayout>
