@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Plant Name"
-                    android:inputType="text" />
+                    android:inputType="textPersonName" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="flower"
-                    android:inputType="text" />
+                    android:inputType="textPersonName" />
 
             </LinearLayout>
 
