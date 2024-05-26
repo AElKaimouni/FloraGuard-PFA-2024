@@ -23,8 +23,7 @@
                 android:layout_margin="10dp"
                 android:ems="10"
                 android:hint="Name"
-
-                android:inputType="text" />
+                android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/ed_email"
@@ -33,7 +32,7 @@
                 android:layout_margin="10dp"
                 android:ems="10"
                 android:hint="email"
-                android:inputType="text" />
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/ed_password"
@@ -42,7 +41,7 @@
                 android:layout_margin="10dp"
                 android:ems="10"
                 android:hint="password"
-                android:inputType="text" />
+                android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/btn_save"
