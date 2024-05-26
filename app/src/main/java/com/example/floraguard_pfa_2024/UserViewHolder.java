@@ -1,9 +1,11 @@
 package com.example.floraguard_pfa_2024;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,16 +15,15 @@ import com.example.floraguard_pfa_2024.User.UserInterface;
 public class UserViewHolder extends RecyclerView.ViewHolder {
     public TextView name;
     public TextView email;
-    public Button update, delete;
-    private FragmentActivity activity; // Use FragmentActivity instead of Context
+    public Button delete;
+    private FragmentActivity activity;
 
     public UserViewHolder(View itemView, FragmentActivity activity) {
         super(itemView);
-        this.activity = activity;  // Correct the context assignment
-        name = itemView.findViewById(R.id.name); // Ensure these IDs match your layout
+        this.activity = activity;
+        name = itemView.findViewById(R.id.name);
         email = itemView.findViewById(R.id.Email);
         delete = itemView.findViewById(R.id.delete);
-
 
         delete.setOnClickListener(v -> deleteUser());
     }
@@ -31,21 +32,26 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
         UserInterface.findOne(email.getText().toString()).thenAccept(res -> {
             res.delete().thenAccept(v -> {
                 Log.d("user-delete", "User deleted: " + res.getEmail());
+                showToast("User deleted");
             }).exceptionally(e -> {
                 Log.e("user-delete", "Failed to delete user: " + e.getMessage());
+                showToast("Failed to delete user");
                 return null;
             });
         }).exceptionally(e -> {
             Log.e("user-delete", "Failed to find user: " + e.getMessage());
+            showToast("Failed to find user");
             return null;
         });
     }
 
-    /*public void updateUser() {
-        ProfileFragment profileFragment = ProfileFragment.newInstance(name.getText().toString(), email.getText().toString());
-        activity.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, profileFragment)
-                .addToBackStack(null)
-                .commit();
-    }*/
+    private void showToast(String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+    }
+    private void goToMainActivity() {
+        Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+        // If you want to remove this fragment from the back stack:
+        activity.getSupportFragmentManager().popBackStack();
+    }
 }

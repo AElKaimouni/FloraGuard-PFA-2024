@@ -1,5 +1,6 @@
 package com.example.floraguard_pfa_2024;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ public class UsersFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private String mParam1;
+    private View rootView;
     private String mParam2;
 
     public UsersFragment() {
@@ -52,7 +54,7 @@ public class UsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_users, container, false);
+        rootView = inflater.inflate(R.layout.fragment_users, container, false);
 
         // Fetch users list asynchronously
         UserInterface.all().thenAccept(users -> {
@@ -69,4 +71,14 @@ public class UsersFragment extends Fragment {
         recyclerView.setAdapter(new UserAdapter(users, getContext()));
         recyclerView.scrollToPosition(0);
     }
+    private void goToMainActivity() {
+        Intent intent = new Intent(requireContext(), MainActivity.class);
+        startActivity(intent);
+        // If you want to remove this fragment from the back stack:
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
+
+
+
 }

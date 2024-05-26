@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
+
 import com.example.floraguard_pfa_2024.User.UserInterface;
 import com.example.floraguard_pfa_2024.databinding.ActivityMainBinding;
 
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Login
-        UserInterface.login("abdo@gmail.com", "1234567899").thenAccept(user -> {
+        UserInterface.login("safouat7@gmail.com", "1234567890").thenAccept(user -> {
             if (user == null) {
                 Log.d("user-auth", "Invalid credentials");
             } else {
@@ -54,39 +55,45 @@ public class MainActivity extends AppCompatActivity {
             Log.e("user-auth", "Error authenticating", e);
             return null;
         });
-        binding.bottomNavigationView.setOnItemReselectedListener(item -> {
-            if (item.getItemId() == R.id.itm_home) {
-                // Perform action for Home item reselection
-                Log.d("BottomNavigation", "Home item reselected");
-            } else if (item.getItemId() == R.id.itm_add_users) {
-                // Perform action for Add item reselection
-                replaceFragment(getSupportFragmentManager(),new UserFormFragment());
 
-            } else if (item.getItemId() == R.id.itm_users) {
-                // Perform action for Users item reselection
-                replaceFragment(getSupportFragmentManager(),new UsersFragment());
-            } else if (item.getItemId() == R.id.itm_profile) {
-                replaceFragment(getSupportFragmentManager(),new ProfileFragment() );
-                // Perform action for Profile item reselection
-                Log.d("BottomNavigation", "Profile item reselected");
+        // Set up bottom navigation view
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.itm_home) {
+                // Perform action for Home item selection
+                Log.d("BottomNavigation", "Home item selected");
+                return true;
+            } else if (itemId == R.id.itm_add_users) {
+                // Perform action for Add item selection
+                replaceFragment(getSupportFragmentManager(), new UserFormFragment());
+                return true;
+            } else if (itemId == R.id.itm_users) {
+                // Perform action for Users item selection
+                replaceFragment(getSupportFragmentManager(), new UsersFragment());
+                return true;
+            } else if (itemId == R.id.itm_profile) {
+                // Perform action for Profile item selection
+                replaceFragment(getSupportFragmentManager(), ProfileFragment.newInstance("UserName", "UserEmail"));
+                Log.d("BottomNavigation", "Profile item selected");
+                return true;
+            } else {
+                return false;
             }
         });
     }
-    public static void replaceFragment(FragmentManager fragmentManager,Fragment fragment ) {
+
+    public static void replaceFragment(FragmentManager fragmentManager, Fragment fragment) {
         // Begin the transaction
-
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        // Set arguments for the fragment if provided
-
 
         // Replace the fragment
         transaction.replace(R.id.fragment_container, fragment);
 
         // Add the transaction to the back stack (optional)
-        // transaction.addToBackStack(tag);
+        transaction.addToBackStack(null);
 
         // Commit the transaction
         transaction.commit();
     }
-    }
+
+}

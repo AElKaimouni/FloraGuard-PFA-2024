@@ -1,5 +1,6 @@
 package com.example.floraguard_pfa_2024;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.floraguard_pfa_2024.User.UserInterface;
 
@@ -86,6 +88,8 @@ public class UserFormFragment extends Fragment {
         UserInterface.create(nameValue,EmailValue,PasswordValue,"").whenComplete((res, exception) -> {
             if(exception == null) {
                 Log.d("user-create", res.getName());
+                showToast("user created");
+                goToMainActivity();
             } else { // if email is duplicated
                 Log.d("user", exception.getMessage());
             }
@@ -93,4 +97,14 @@ public class UserFormFragment extends Fragment {
 
 
     }
+    private void goToMainActivity() {
+        Intent intent = new Intent(requireContext(), MainActivity.class);
+        startActivity(intent);
+        // If you want to remove this fragment from the back stack:
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+    private void showToast(String message) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
 }
