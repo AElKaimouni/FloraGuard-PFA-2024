@@ -117,9 +117,9 @@ public interface PlantInterface {
         return future;
     }
 
-    static CompletableFuture<ArrayList<PlantModel>> table() {
+    public static CompletableFuture<ArrayList<PlantModel>> table() {
         CompletableFuture<ArrayList<PlantModel>> future = new CompletableFuture<>();
-        ArrayList<PlantModel> list = new ArrayList<PlantModel>();
+        ArrayList<PlantModel> list = new ArrayList<>();
 
         PlantModel.db.collection("plants")
                 .get()
@@ -127,20 +127,19 @@ public interface PlantInterface {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             PlantModel plant = new PlantModel(
-                                document.getId(),
-                                document.getString("name"),
-                                document.getString("image"),
-                                document.getString("type")
+                                    document.getId(),
+                                    document.getString("name"),
+                                    document.getString("image"),
+                                    document.getString("type")
                             );
-
                             list.add(plant);
                         }
-
                         future.complete(list);
+                    } else {
+                        future.completeExceptionally(task.getException());
                     }
                 });
 
-        return  future;
+        return future;
     }
-
 }

@@ -55,19 +55,27 @@ public class MainActivity extends AppCompatActivity {
             Log.e("user-auth", "Error authenticating", e);
             return null;
         });
+        replaceFragment(getSupportFragmentManager(), new HomeFragment());
 
         // Set up bottom navigation view
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.itm_home) {
                 // Perform action for Home item selection
+                replaceFragment(getSupportFragmentManager(), new HomeFragment());
                 Log.d("BottomNavigation", "Home item selected");
                 return true;
             } else if (itemId == R.id.itm_add_users) {
                 // Perform action for Add item selection
                 replaceFragment(getSupportFragmentManager(), new UserFormFragment());
                 return true;
-            } else if (itemId == R.id.itm_users) {
+
+            }else if (itemId == R.id.itm_add_plant) {
+                // Perform action for Add item selection
+                replaceFragment(getSupportFragmentManager(), new AddPlantFragment());
+                return true;
+
+            }  else if (itemId == R.id.itm_users) {
                 // Perform action for Users item selection
                 replaceFragment(getSupportFragmentManager(), new UsersFragment());
                 return true;

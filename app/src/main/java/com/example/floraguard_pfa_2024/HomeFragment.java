@@ -1,12 +1,22 @@
 package com.example.floraguard_pfa_2024;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.floraguard_pfa_2024.Plant.PlantInterface;
+import com.example.floraguard_pfa_2024.Plant.PlantModel;
+import com.example.floraguard_pfa_2024.User.UserModel;
+
+import java.util.LinkedList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +33,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private View rootView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -56,9 +67,26 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        PlantInterface.table().thenAccept(plants -> {
+            getActivity().runOnUiThread(() -> setupRecyclerView(rootView, new LinkedList<>(plants)));
+        });
+        return rootView;
+    }
+
+    private void setupRecyclerView(View rootView, LinkedList<PlantModel> plants) {
+        RecyclerView recyclerView = rootView.findViewById(R.id.plants_All);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(new PlantAdapter(plants, getContext()));
+        recyclerView.scrollToPosition(0);
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(requireContext(), MainActivity.class);
+        startActivity(intent);
+        // If you want to remove this fragment from the back stack:
+        requireActivity().getSupportFragmentManager().popBackStack();
     }
 }
