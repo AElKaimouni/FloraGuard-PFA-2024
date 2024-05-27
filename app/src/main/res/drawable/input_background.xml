@@ -1,16 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- res/drawable/custom_button_background.xml -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/cardview_dark_background"/> <!-- Color when button is pressed -->
-            <corners android:radius="30dp"/> <!-- Rounded corners -->
-        </shape>
-    </item>
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@android:color/white"/> <!-- Default transparent background -->
-            <corners android:radius="30dp"/> <!-- Rounded corners -->
-        </shape>
-    </item>
-</selector>
+<item>
+    <shape android:shape="rectangle">
+        <solid android:color="@android:color/white"/> <!-- Default transparent background -->
+        <corners android:radius="30dp"/> <!-- Rounded corners -->
+    </shape>
+</item>
+    </selector>

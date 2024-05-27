@@ -84,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(getSupportFragmentManager(), ProfileFragment.newInstance("UserName", "UserEmail"));
                 Log.d("BottomNavigation", "Profile item selected");
                 return true;
-            } else {
+            }
+
+        else {
                 return false;
             }
         });

@@ -1,44 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal"
-    >
-<ImageView
-    android:id="@+id/img_plant"
-    android:layout_width="70dp"
-    android:layout_height="70dp"
-    android:layout_gravity="center"
-    android:layout_marginStart="30dp"
-    android:src="@drawable/baseline_add_24"/>
-<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:layout_margin="40dp">
 
-
-
-
-
-    <TextView
-        android:id="@+id/txt_plant_name"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="name"
-        android:textSize="28sp"/>
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        style="@style/CustomCardViewStyle">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
+            <!-- Image -->
+            <ImageView
+                android:id="@+id/img_plant"
+                android:layout_width="400dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:background="@drawable/input_background"/>
 
+            <!-- Texts -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
+                <!-- Plant name -->
+                <TextView
+                    android:id="@+id/txt_plant_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Plant name"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-    <Button
-        android:layout_marginTop="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="show"
-        android:id="@+id/delete">
+                <!-- User name -->
 
-    </Button>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
-</LinearLayout>
-
